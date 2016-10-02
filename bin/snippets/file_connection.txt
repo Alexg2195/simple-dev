@@ -1,0 +1,7 @@
+var mongoose = require('mongoose');
+
+// Heroku MongoLab setup for Heroku deployment
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/YOUR_DB_NAME_HERE');
+var db = mongoose.connection;
+
+module.exports = db;
