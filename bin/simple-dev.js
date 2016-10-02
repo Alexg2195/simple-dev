@@ -96,8 +96,7 @@ function endPoint (endPtName) {
     var controllerFilePath = `./controllers/${endPtName}.js`;
     if (!fs.existsSync(controllerFilePath)){
       fs.openSync(controllerFilePath, 'w');
-      fs.writeFileSync(controllerFilePath, fs.readFileSync('./bin/snippets/file_endpoint.txt'));
-      var body = fs.readFileSync(controllerFilePath).toString();
+      var body = fs.readFileSync('./bin/snippets/file_endpoint.txt').toString();
       body = body.replace(/MODEL_CAP/g, (endPtName.charAt(0).toUpperCase() + endPtName.slice(1)));
       body = body.replace(/MODEL/g, endPtName);
       fs.writeFileSync(controllerFilePath, body);
