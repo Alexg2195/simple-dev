@@ -5,11 +5,22 @@ var cli = require('cli');
 // cli.parse({
 //   build: [ 'b', 'Build Starter Files', 'boolean', false ]      // -b, Build Start files
 // });
+
 var options = cli.parse(process.argv);
 
+if (options[2] == 'create') {
+  switch (options[3]) {
+    case 'app':
+      create();
+      break;
+    default:
+      endPoint(options[3]);
+  }
+}
 
-if (options[2] == 'create' && options[3] == 'app') {
-  var dir = ['./config', './routes', './models'];
+
+function create () {
+  var dir = ['./config', './routes', './models', './controllers'];
   var file = [
     './index.js',
     './config/connection.js',
@@ -25,7 +36,7 @@ if (options[2] == 'create' && options[3] == 'app') {
 
 
   console.log(``);
-  console.log(`----> Starting initial build <----`);
+  console.log(`----> STARTING INITIAL BUILD <----`);
   console.log(``);
 
 
@@ -57,6 +68,51 @@ if (options[2] == 'create' && options[3] == 'app') {
 }
 
 
+function endPoint (endPtName) {
+  var routeDir = './routes/api.js';
+  var route_pointer = "// Routes\r";
+  var controller_pointer = "// Controllers\r";
+
+  var new_route = `\napp.use('/${endPtName}', ${endPtName}_route);`;
+  var new_controller = `\nvar ${endPtName}_route = require('../controllers/${endPtName}');`;
+
+  console.log(``);
+  console.log(`----> Building ${endPtName} EndPoint <----`);
+  console.log(``);
+
+  var body = fs.readFileSync(routeDir).toString();
+
+  if (body.indexOf(endPtName) < 0) {
+
+    body = body.split('\n');
+    body.splice();
+    body[body.indexOf(route_pointer)] += new_route;
+    body[body.indexOf(controller_pointer)] += new_controller;
+    var output = body.join('\n');
+    fs.writeFileSync(routeDir, output);
+
+    console.log(``);
+    console.log(`++ ${endPtName} Endpoint created!`);
+    console.log(``);
+  } else {
+    console.log(``);
+    console.log(`-> ${endPtName} Endpoint already created!`);
+    console.log(``);
+  }
+
+
+  // function remove () {
+  //
+  //   var body = fs.readFileSync(routeDir).toString();
+  //   var idx = body.indexOf(search);
+  //
+  //   if (idx >= 0 ) {
+  //     var output = body.substr(0, idx) + body.substr(idx + search.length);
+  //     fs.writeFileSync('example.js', output);
+  //   }
+  //
+  // }
+}
 
 
 
