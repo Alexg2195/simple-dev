@@ -2,24 +2,24 @@
 'use strict';
 var fs = require('fs');
 var cli = require('cli');
-// cli.parse({
-//   build: [ 'b', 'Build Starter Files', 'boolean', false ]      // -b, Build Start files
-// });
+cli.parse({
+  force: [ 'f', 'Force Operation', 'boolean', false ]      // -b, Build Start files
+});
 
 var options = cli.parse(process.argv);
 
 if (options[2] == 'create') {
   switch (options[3]) {
     case 'app':
-      create();
+      createApp ();
       break;
     default:
-      endPoint(options[3]);
+      endPoint (options[3]);
   }
 }
 
 
-function create () {
+function createApp () {
   var dir = ['./config', './routes', './models', './controllers'];
   var file = [
     './index.js',
@@ -70,19 +70,17 @@ function create () {
 
 function endPoint (endPtName) {
   var routeDir = './routes/api.js';
-  var route_pointer = "// Routes\r";
-  var controller_pointer = "// Controllers\r";
+  var route_pointer = '// Routes\r';
+  var controller_pointer = '// Controllers\r';
+
+  endPtName = endPtName.toLowerCase();
 
   var new_route = `\napp.use('/${endPtName}', ${endPtName}_route);`;
   var new_controller = `\nvar ${endPtName}_route = require('../controllers/${endPtName}');`;
 
-  console.log(``);
-  console.log(`----> Building ${endPtName} EndPoint <----`);
-  console.log(``);
-
   var body = fs.readFileSync(routeDir).toString();
 
-  if (body.indexOf(endPtName) < 0) {
+  if (body.indexOf(endPtName) < 0 || options.force) {
 
     body = body.split('\n');
     body.splice();
@@ -90,6 +88,12 @@ function endPoint (endPtName) {
     body[body.indexOf(controller_pointer)] += new_controller;
     var output = body.join('\n');
     fs.writeFileSync(routeDir, output);
+
+
+    if (!fs.existsSync(`./controllers/${endPtName}.js`)){
+      fs.openSync(`./controllers/${endPtName}.js`, 'w');
+      // fs.writeFileSync(`./controllers/${endPtName}.js`, fs.readFileSync(snippet[i]));
+    }
 
     console.log(``);
     console.log(`++ ${endPtName} Endpoint created!`);
