@@ -102,6 +102,14 @@ function endPoint (endPtName) {
       fs.writeFileSync(controllerFilePath, body);
     }
 
+    var modelFilePath = `./models/${endPtName}.js`;
+    if (!fs.existsSync(modelFilePath)){
+      fs.openSync(modelFilePath, 'w');
+      var body = fs.readFileSync('./bin/snippets/file_model.txt').toString();
+      body = body.replace(/MODEL/g, (endPtName.charAt(0).toUpperCase() + endPtName.slice(1)).slice(0,endPtName.length-1));
+      fs.writeFileSync(modelFilePath, body);
+    }
+
     console.log(``);
     console.log(`++ ${endPtName} Endpoint created!`);
     console.log(``);
