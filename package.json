@@ -1,0 +1,25 @@
+{
+  "name": "simple-dev",
+  "version": "1.0.0",
+  "description": "A CLI to speed up API development on node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "simple-dev": "./bin/simple-dev.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alexg2195/simple-dev.git"
+  },
+  "author": "Alex Giordano",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Alexg2195/simple-dev/issues"
+  },
+  "homepage": "https://github.com/Alexg2195/simple-dev#readme",
+  "dependencies": {
+    "cli": "^1.0.0"
+  }
+}
