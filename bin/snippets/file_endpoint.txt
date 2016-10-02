@@ -1,8 +1,8 @@
 var mongoose = require('mongoose');
-var Users = require('../models/users');
+var MODEL_CAP = require('../models/MODEL');
 
-router.get('/users', (req, res) => {
-  Users.find({
+router.get('/MODEL', (req, res) => {
+  MODEL_CAP.find({
   },(err, docs) => {
     if (err) {
       res.send(err);
@@ -12,8 +12,8 @@ router.get('/users', (req, res) => {
   });
 });
 
-router.get('/users/:id', (req, res) => {
-  Users.findById(req.params.id, (err, doc) => {
+router.get('/MODEL/:id', (req, res) => {
+  MODEL_CAP.findById(req.params.id, (err, doc) => {
     if (err) {
       res.send(err);
     } else {
@@ -22,9 +22,9 @@ router.get('/users/:id', (req, res) => {
   });
 });
 
-router.post('/users', (req, res) => {
-  var users = new Users({data: req.body.data});
-  Users.save((err, doc) => {
+router.post('/MODEL', (req, res) => {
+  var MODEL = new MODEL_CAP({data: req.body.data});
+  MODEL_CAP.save((err, doc) => {
     if (err) {
       res.send(err);
     } else {
@@ -33,8 +33,8 @@ router.post('/users', (req, res) => {
   });
 });
 
-router.put('/users/:id', (req, res) => {
-  Users.findById(req.params.id, (err, doc) => {
+router.put('/MODEL/:id', (req, res) => {
+  MODEL_CAP.findById(req.params.id, (err, doc) => {
     if (err) return console.log(err);
     doc.data = req.body.data;
     doc.save((err, doc) => {
@@ -47,8 +47,8 @@ router.put('/users/:id', (req, res) => {
   });
 });
 
-router.delete('/users/:id', (req, res) => {
-  Users.remove({_id: req.params.id}, (err) => {
+router.delete('/MODEL/:id', (req, res) => {
+  MODEL_CAP.remove({_id: req.params.id}, (err) => {
     if (err)
       res.send(err);
     else {

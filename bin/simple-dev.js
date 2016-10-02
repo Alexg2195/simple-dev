@@ -47,7 +47,7 @@ function createApp () {
       console.log(`++ ${dir[i]} created!`);
       console.log(``);
     } else {
-      console.log(`-> ${dir[i]} already created!`);
+      console.log(`>> ${dir[i]} already created!`);
       console.log(``);
     }
   }
@@ -61,7 +61,7 @@ function createApp () {
       console.log(`++ ${file[i]} created!`);
       console.log(``);
     } else {
-      console.log(`-> ${file[i]} already created!`);
+      console.log(`>> ${file[i]} already created!`);
       console.log(``);
     }
   }
@@ -72,8 +72,12 @@ function endPoint (endPtName) {
   var routeDir = './routes/api.js';
   var route_pointer = '// Routes\r';
   var controller_pointer = '// Controllers\r';
+  var end_pt_snippet = './bin/snippets/file_endpoint.txt';
 
   endPtName = endPtName.toLowerCase();
+  if ( endPtName[endPtName.length-1] !== 's') {
+    endPtName += 's';
+  }
 
   var new_route = `\napp.use('/${endPtName}', ${endPtName}_route);`;
   var new_controller = `\nvar ${endPtName}_route = require('../controllers/${endPtName}');`;
@@ -89,10 +93,14 @@ function endPoint (endPtName) {
     var output = body.join('\n');
     fs.writeFileSync(routeDir, output);
 
-
-    if (!fs.existsSync(`./controllers/${endPtName}.js`)){
-      fs.openSync(`./controllers/${endPtName}.js`, 'w');
-      // fs.writeFileSync(`./controllers/${endPtName}.js`, fs.readFileSync(snippet[i]));
+    var controllerFilePath = `./controllers/${endPtName}.js`;
+    if (!fs.existsSync(controllerFilePath)){
+      fs.openSync(controllerFilePath, 'w');
+      fs.writeFileSync(controllerFilePath, fs.readFileSync('./bin/snippets/file_endpoint.txt'));
+      var body = fs.readFileSync(controllerFilePath).toString();
+      body = body.replace(/MODEL_CAP/g, (endPtName.charAt(0).toUpperCase() + endPtName.slice(1)));
+      body = body.replace(/MODEL/g, endPtName);
+      fs.writeFileSync(controllerFilePath, body);
     }
 
     console.log(``);
@@ -100,7 +108,7 @@ function endPoint (endPtName) {
     console.log(``);
   } else {
     console.log(``);
-    console.log(`-> ${endPtName} Endpoint already created!`);
+    console.log(`>> ${endPtName} Endpoint already created!`);
     console.log(``);
   }
 
@@ -123,19 +131,13 @@ function endPoint (endPtName) {
 
 // -------------------------> FOR DEVELOPMENT ONLY <-----------------------------
 
-if (options[2] == 'delete') {
-  var dir = ['./config', './routes', './models'];
+if (options[2] == 'delete' && options.force) {
+  var dir = ['./config', './routes', './models', './controllers'];
   var file = [
     './index.js',
     './config/connection.js',
     './routes/index.js',
     './routes/api.js'
-  ];
-  var snippet = [
-    './bin/snippets/file_index.txt',
-    './bin/snippets/file_connection.txt',
-    './bin/snippets/file_route_index.txt',
-    './bin/snippets/file_route_api.txt'
   ];
 
 
@@ -167,4 +169,8 @@ if (options[2] == 'delete') {
     }
   }
 
+} else if (options[2] == 'delete'){
+  console.log(``);
+  console.log(`----> Must use -f flag to delete the app! <----`);
+  console.log(``);
 }
