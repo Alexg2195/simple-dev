@@ -10,8 +10,18 @@ var options = cli.parse(process.argv);
 
 if (options[2] == 'create' && options[3] == 'app') {
   var dir = ['./config', './routes', './models'];
-  var file = ['./index.js', './config/connection.js'];
-  var snippet = ['./bin/snippets/file_index.txt', './bin/snippets/file_connection.txt'];
+  var file = [
+    './index.js',
+    './config/connection.js',
+    './routes/index.js',
+    './routes/api.js'
+  ];
+  var snippet = [
+    './bin/snippets/file_index.txt',
+    './bin/snippets/file_connection.txt',
+    './bin/snippets/file_route_index.txt',
+    './bin/snippets/file_route_api.txt'
+  ];
 
 
   console.log(``);
@@ -55,8 +65,18 @@ if (options[2] == 'create' && options[3] == 'app') {
 
 if (options[2] == 'delete') {
   var dir = ['./config', './routes', './models'];
-  var file = ['./index.js', './config/connection.js'];
-  var snippet = ['./bin/snippets/file_index.txt', './bin/snippets/file_connection.txt'];
+  var file = [
+    './index.js',
+    './config/connection.js',
+    './routes/index.js',
+    './routes/api.js'
+  ];
+  var snippet = [
+    './bin/snippets/file_index.txt',
+    './bin/snippets/file_connection.txt',
+    './bin/snippets/file_route_index.txt',
+    './bin/snippets/file_route_api.txt'
+  ];
 
 
   console.log(``);
@@ -67,7 +87,7 @@ if (options[2] == 'delete') {
   for (var i = 0; i < file.length; i++) {
     if (fs.existsSync(file[i])){
       fs.unlinkSync(file[i], 'w');
-      console.log(`++ ${file[i]} Deleted!`);
+      console.log(`-- ${file[i]} Deleted!`);
       console.log(``);
     } else {
       console.log(`-> ${file[i]} already Deleted!`);
@@ -79,7 +99,7 @@ if (options[2] == 'delete') {
   for (var i = 0; i < dir.length; i++) {
     if (fs.existsSync(dir[i])){
       fs.rmdirSync(dir[i]);
-      console.log(`++ ${dir[i]} Deleted!`);
+      console.log(`-- ${dir[i]} Deleted!`);
       console.log(``);
     } else {
       console.log(`-> ${dir[i]} already Deleted!`);
