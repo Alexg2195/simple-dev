@@ -8,18 +8,18 @@ cli.parse({
 
 var options = cli.parse(process.argv);
 
-if (options[2] == 'create') {
+if(options[2] == 'create') {
   switch (options[3]) {
     case 'app':
-      createApp ();
+      createApp();
       break;
     default:
-      endPoint (options[3]);
+      endPoint(options[3]);
   }
 }
 
 
-function createApp () {
+function createApp() {
   var dir = ['./config', './routes', './models', './controllers'];
   var file = [
     './index.js',
@@ -41,8 +41,8 @@ function createApp () {
 
 
   // -----> Create folders <-----------
-  for (var i = 0; i < dir.length; i++) {
-    if (!fs.existsSync(dir[i])){
+  for(var i = 0; i < dir.length; i++) {
+    if(!fs.existsSync(dir[i])) {
       fs.mkdirSync(dir[i]);
       console.log(`++ ${dir[i]} created!`);
       console.log(``);
@@ -54,8 +54,8 @@ function createApp () {
 
 
   // -----> Create files <-------------
-  for (var i = 0; i < file.length; i++) {
-    if (!fs.existsSync(file[i])){
+  for(var i = 0; i < file.length; i++) {
+    if(!fs.existsSync(file[i])) {
       fs.openSync(file[i], 'w');
       fs.writeFileSync(file[i], fs.readFileSync(snippet[i]));
       console.log(`++ ${file[i]} created!`);
@@ -68,14 +68,14 @@ function createApp () {
 }
 
 
-function endPoint (endPtName) {
+function endPoint(endPtName) {
   var routeDir = './routes/api.js';
   var route_pointer = '// Routes\r';
   var controller_pointer = '// Controllers\r';
   var end_pt_snippet = './bin/snippets/file_endpoint.txt';
 
   endPtName = endPtName.toLowerCase();
-  if ( endPtName[endPtName.length-1] !== 's') {
+  if(endPtName[endPtName.length-1] !== 's') {
     endPtName += 's';
   }
 
@@ -84,7 +84,7 @@ function endPoint (endPtName) {
 
   var body = fs.readFileSync(routeDir).toString();
 
-  if (body.indexOf(endPtName) < 0 || options.force) {
+  if(body.indexOf(endPtName) < 0 || options.force) {
 
     body = body.split('\n');
     body.splice();
@@ -94,7 +94,7 @@ function endPoint (endPtName) {
     fs.writeFileSync(routeDir, output);
 
     var controllerFilePath = `./controllers/${endPtName}.js`;
-    if (!fs.existsSync(controllerFilePath)){
+    if(!fs.existsSync(controllerFilePath)) {
       fs.openSync(controllerFilePath, 'w');
       var body = fs.readFileSync('./bin/snippets/file_endpoint.txt').toString();
       body = body.replace(/MODEL_CAP/g, (endPtName.charAt(0).toUpperCase() + endPtName.slice(1)));
@@ -103,7 +103,7 @@ function endPoint (endPtName) {
     }
 
     var modelFilePath = `./models/${endPtName}.js`;
-    if (!fs.existsSync(modelFilePath)){
+    if(!fs.existsSync(modelFilePath)) {
       fs.openSync(modelFilePath, 'w');
       var body = fs.readFileSync('./bin/snippets/file_model.txt').toString();
       body = body.replace(/MODEL/g, (endPtName.charAt(0).toUpperCase() + endPtName.slice(1)).slice(0,endPtName.length-1));
@@ -138,7 +138,7 @@ function endPoint (endPtName) {
 
 // -------------------------> FOR DEVELOPMENT ONLY <-----------------------------
 
-if (options[2] == 'delete' && options.force) {
+if(options[2] == 'delete' && options.force) {
   var dir = ['./config', './routes', './models', './controllers'];
   var file = [
     './index.js',
@@ -153,7 +153,7 @@ if (options[2] == 'delete' && options.force) {
   console.log(``);
 
   // -----> Create files <-------------
-  for (var i = 0; i < file.length; i++) {
+  for(var i = 0; i < file.length; i++) {
     if (fs.existsSync(file[i])){
       fs.unlinkSync(file[i], 'w');
       console.log(`-- ${file[i]} Deleted!`);
@@ -165,7 +165,7 @@ if (options[2] == 'delete' && options.force) {
   }
 
   // -----> Create folders <-----------
-  for (var i = 0; i < dir.length; i++) {
+  for(var i = 0; i < dir.length; i++) {
     if (fs.existsSync(dir[i])){
       fs.rmdirSync(dir[i]);
       console.log(`-- ${dir[i]} Deleted!`);
@@ -176,7 +176,7 @@ if (options[2] == 'delete' && options.force) {
     }
   }
 
-} else if (options[2] == 'delete'){
+} else if(options[2] == 'delete') {
   console.log(``);
   console.log(`----> Must use -f flag to delete the app! <----`);
   console.log(``);
