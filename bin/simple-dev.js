@@ -10,26 +10,30 @@ cli.parse({
 
 var options = cli.parse(process.argv);
 
-if(options[2] == `help`) {
-  
-}
 
 fs.readdir(`./`, function(err, files) {
   if(files.indexOf(`package.json`) !== -1){
 
+
     // NPM INIT = TRUE
     // Ready to use app
-    if(options[2] == `create`) {
-      switch (options[3]) {
-        case `app`:
-          createApp();
-          break;
-        default:
-          endPoint(options[3]);
-      }
+    switch(options[2]){
+      case `create`:
+        switch(options[3]) {
+          case `app`:
+            createApp();
+            break;
+          default:
+            endPoint(options[3]);
+        }
+        break;
+      default:
+        logHelpMenu();
     }
+
+
   } else {
-    console.log(`Please Start Your Application By Running "npm init" First!`);
+    console.log(`***** Please Run "npm init" before using and dev commands! *****`);
   }
 });
 
@@ -80,6 +84,7 @@ function createApp() {
       console.log(``);
     }
   }
+
 
   // -----> NPM Installs <-----
   console.log(`>> Installing Required Packages....`);
@@ -152,4 +157,22 @@ function endPoint(endPtName) {
   //   }
   //
   // }
+}
+
+
+function logHelpMenu(){
+  console.log(`
+    Welcome to simple-dev!
+
+    Commands:
+
+    > dev create app
+
+    Will create all base files and install required packages.
+
+
+    > dev create END_POINT_NAME
+
+    Will create a REST end point in the API.
+    `);
 }
