@@ -1,22 +1,37 @@
 #!/usr/bin/env node
 `use strict`;
 var fs = require(`fs`);
+var cmd = require(`node-cmd`);
 var cli = require(`cli`);
+
 cli.parse({
-  force: [ `f`, `Force Operation`, `boolean`, false ]      // -b, Build Start files
+  force: [ `f`, `Force Operation`, `boolean`, false ]
 });
 
 var options = cli.parse(process.argv);
 
-if(options[2] == `create`) {
-  switch (options[3]) {
-    case `app`:
-      createApp();
-      break;
-    default:
-      endPoint(options[3]);
-  }
+if(options[2] == `help`) {
+  
 }
+
+fs.readdir(`./`, function(err, files) {
+  if(files.indexOf(`package.json`) !== -1){
+
+    // NPM INIT = TRUE
+    // Ready to use app
+    if(options[2] == `create`) {
+      switch (options[3]) {
+        case `app`:
+          createApp();
+          break;
+        default:
+          endPoint(options[3]);
+      }
+    }
+  } else {
+    console.log(`Please Start Your Application By Running "npm init" First!`);
+  }
+});
 
 
 function createApp() {
@@ -44,10 +59,10 @@ function createApp() {
   for(var i = 0; i < dir.length; i++) {
     if(!fs.existsSync(dir[i])) {
       fs.mkdirSync(dir[i]);
-      console.log(`++ ${dir[i]} created!`);
+      console.log(`++ ${dir[i]} Created!`);
       console.log(``);
     } else {
-      console.log(`>> ${dir[i]} already created!`);
+      console.log(`>> ${dir[i]} Already Created!`);
       console.log(``);
     }
   }
@@ -58,13 +73,23 @@ function createApp() {
     if(!fs.existsSync(file[i])) {
       fs.openSync(file[i], `w`);
       fs.writeFileSync(file[i], snippet[i]);
-      console.log(`++ ${file[i]} created!`);
+      console.log(`++ ${file[i]} Created!`);
       console.log(``);
     } else {
-      console.log(`>> ${file[i]} already created!`);
+      console.log(`>> ${file[i]} Already Created!`);
       console.log(``);
     }
   }
+
+  // -----> NPM Installs <-----
+  console.log(`>> Installing Required Packages....`);
+  console.log(``);
+  var baseInstalls = `express mongoose body-parser morgan`;
+  cmd.get(`npm install ${baseInstalls} --save`, function(data) {
+    console.log(`>> Packages Installed!`);
+    console.log(``);
+  });
+
 }
 
 
@@ -86,7 +111,7 @@ function endPoint(endPtName) {
 
   var apiJsBody = fs.readFileSync(routeDir).toString();
 
-  if(apiJsBody.indexOf(endPtName) < 0 || options.force) {
+  if(apiJsBody.indexOf(endPtName) < 0) {
 
     apiJsBody = apiJsBody.split(`\n`);
     apiJsBody.splice();

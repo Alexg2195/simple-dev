@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/Alexg2195/simple-dev#readme",
   "dependencies": {
-    "cli": "^1.0.0"
+    "cli": "^1.0.0",
+    "node-cmd": "^1.1.1"
   }
 }
