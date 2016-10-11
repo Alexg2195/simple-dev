@@ -1,16 +1,14 @@
 # simple-dev
-A CLI to speed up API development on node.js
+A CLI designed to speed up API development on node.js
 
 ## Technologies Incorporated
 
-Node.js
-Express
-Mongoose
+- Node.js
+- Express
+- MongoDB (Mongoose)
 
 ## Commands
 
-create app - This will create all template files required.
+- create app - This will create all template files required.
 
-create YOUR_END_POINT - Will create a restful api endpoint.
-
-delete -f - Will attempt to delete all files in this template.
+- create YOUR_END_POINT - Will create a restful api endpoint.
