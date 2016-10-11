@@ -1,10 +1,12 @@
 module.exports = function(endPtName) {
   var endPtNameCAPS = (endPtName.charAt(0).toUpperCase() + endPtName.slice(1));
   return `\
-var mongoose = require('mongoose');
-var ${endPtNameCAPS} = require('../models/${endPtNameCAPS}');
+var express = require(\'express\');
+var router = express.Router();
+var mongoose = require(\'mongoose\');
+var ${endPtNameCAPS} = require(\'../models/${endPtName}\');
 
-router.get('/${endPtName}', (req, res) => {
+router.get(\'/\', (req, res) => {
   ${endPtNameCAPS}.find({
   },(err, docs) => {
     if (err) {
@@ -15,7 +17,7 @@ router.get('/${endPtName}', (req, res) => {
   });
 });
 
-router.get('/${endPtName}/:id', (req, res) => {
+router.get(\'/:id\', (req, res) => {
   ${endPtNameCAPS}.findById(req.params.id, (err, doc) => {
     if (err) {
       res.send(err);
@@ -25,9 +27,9 @@ router.get('/${endPtName}/:id', (req, res) => {
   });
 });
 
-router.post('/${endPtName}', (req, res) => {
-  var ${endPtName} = new ${endPtNameCAPS}({data: req.body.data});
-  ${endPtNameCAPS}.save((err, doc) => {
+router.post(\'/\', (req, res) => {
+  var new${endPtNameCAPS} = new ${endPtNameCAPS}(req.body);
+  new${endPtNameCAPS}.save((err, doc) => {
     if (err) {
       res.send(err);
     } else {
@@ -36,9 +38,11 @@ router.post('/${endPtName}', (req, res) => {
   });
 });
 
-router.put('/${endPtName}/:id', (req, res) => {
+router.put(\'/:id\', (req, res) => {
   ${endPtNameCAPS}.findById(req.params.id, (err, doc) => {
-    if (err) return console.log(err);
+    if (err) {
+      res.send(err);
+    }
     doc.data = req.body.data;
     doc.save((err, doc) => {
       if (err) {
@@ -50,13 +54,15 @@ router.put('/${endPtName}/:id', (req, res) => {
   });
 });
 
-router.delete('/${endPtName}/:id', (req, res) => {
+router.delete(\'/:id\', (req, res) => {
   ${endPtNameCAPS}.remove({_id: req.params.id}, (err) => {
     if (err)
       res.send(err);
     else {
-      res.send('Delete Successful');
+      res.send(\'Delete Successful\');
     }
   });
-});`
+});
+
+module.exports = router;`
 }

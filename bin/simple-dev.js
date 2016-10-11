@@ -102,7 +102,7 @@ function endPoint(endPtName) {
   var routeDir = `./routes/api.js`;
   var routePointer = `// Routes`;
   var controllerPointer = `// Controllers`;
-  var newRoute = `\napp.use(\`${endPtName}\`, ${endPtName}Route);`;
+  var newRoute = `\nrouter.use(\`/${endPtName}\`, ${endPtName}Route);`;
   var newController = `\nvar ${endPtName}Route = require(\`../controllers/${endPtName}\`);`;
   var controllerFilePath = `./controllers/${endPtName}.js`;
   var modelFilePath = `./models/${endPtName}.js`;
@@ -127,7 +127,7 @@ function endPoint(endPtName) {
 
     if(!fs.existsSync(controllerFilePath)) {
       fs.openSync(controllerFilePath, `w`);
-      fs.writeFileSync(controllerFilePath, endpointSnippet(endPtName));
+      fs.writeFileSync(controllerFilePath, endpointSnippet(endPtName.slice(0, -1)));
     }
 
 
