@@ -21,6 +21,7 @@
   "homepage": "https://github.com/Alexg2195/simple-dev#readme",
   "dependencies": {
     "cli": "^1.0.0",
+    "inquirer": "^1.2.2",
     "node-cmd": "^1.1.1"
   }
 }
