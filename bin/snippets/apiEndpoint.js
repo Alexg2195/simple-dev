@@ -3,7 +3,6 @@ module.exports = function(endPtName) {
   return `\
 var express = require(\'express\');
 var router = express.Router();
-var mongoose = require(\'mongoose\');
 var ${endPtNameCAPS} = require(\'../models/${endPtName}\');
 
 router.get(\'/\', (req, res) => {

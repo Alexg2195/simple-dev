@@ -9,6 +9,6 @@ A CLI designed to speed up API development on node.js
 
 ## Commands
 
-- create app - This will create all template files required.
+- dev create app - This will create all template files required.
 
-- create YOUR_END_POINT - Will create a restful api endpoint.
+- dev create YOUR_END_POINT - Will create a restful api endpoint.

@@ -1,23 +1,20 @@
 #!/usr/bin/env node
-`use strict`;
-var fs = require(`fs`);
-var cli = require(`cli`);
+'use strict';
+var fs = require('fs');
+var cli = require('cli');
 
-var create = require(`./lib/create`);
+var create = require('./lib/create');
 
 var options = cli.parse(process.argv);
 
-
-fs.readdir(`./`, function(err, files) {
-  if(files.indexOf(`package.json`) !== -1){
-
-
+fs.readdir('./', function(err, files) {
+  if(files.indexOf('package.json') !== -1){
     // NPM INIT = TRUE
     // Ready to use app
     switch(options[2]){
-      case `create`:
+      case 'create':
         switch(options[3]) {
-          case `app`:
+          case 'app':
             create.app();
             break;
           default:
@@ -27,18 +24,13 @@ fs.readdir(`./`, function(err, files) {
       default:
         logHelpMenu();
     }
-
-
   } else {
-    console.log(`***** Please Run "npm init" before using and dev commands! *****`);
+    console.log('***** Please Run "npm init" before using and dev commands! *****');
   }
 });
 
-
-
-
 function logHelpMenu(){
-  console.log(`
+  console.log('
     Welcome to simple-dev!
 
     Commands:
@@ -51,5 +43,5 @@ function logHelpMenu(){
     > dev create END_POINT_NAME
 
     Will create a REST end point in the API.
-    `);
+    ');
 }
